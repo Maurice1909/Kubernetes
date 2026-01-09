@@ -5,7 +5,7 @@ metadata:
   labels:
     app: mongo-express
 spec:
-  replicas: 2 
+  replicas: 1 
   selector:
     matchLabels:
       app: mongo-express
@@ -24,12 +24,16 @@ spec:
           valueFrom:
             secretKeyRef:
               name: mongo-secret
-              key: MONGO_ROOT_USERNAME
+              key: MONGO_INITDB_ROOT_USERNAME
         - name: ME_CONFIG_MONGODB_ADMINPASSWORD  
           valueFrom:
             secretKeyRef:
               name: mongo-secret
-              key: MONGO_ROOT_PASSWORD
+              key: MONGO_INITDB_ROOT_PASSWORD
         - name: ME_CONFIG_MONGODB_SERVER
-          value: 
+          valueFrom:
+            configMapKeyRef:
+              name: mongo-config
+              key: database_url
+
 
